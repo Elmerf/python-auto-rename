@@ -29,7 +29,9 @@ def rename_files(path):
 
     files = [f for f in os.listdir(path) if f.endswith(".pdf")]
     total_files = len(files)
+    
     processed_files = 0
+    success_files = 0
 
     logging.info(f"Total PDF files: {total_files}")
 
@@ -52,6 +54,8 @@ def rename_files(path):
         image.close()
         doc.close()
 
+        processed_files += 1
+            
         if nomor_surat:
             new_filename = os.path.join(path, nomor_surat + ".pdf")
             counter = 1
@@ -62,7 +66,9 @@ def rename_files(path):
                 counter += 1
 
             os.rename(os.path.join(path, filename), new_filename)
-            processed_files += 1
+            
+            success_files += 1
+            
             logging.info(f"Processed files: {processed_files}/{total_files}, renamed: {filename} -> {os.path.basename(new_filename)}")
         else:
             logging.info(f"Processed files: {processed_files}/{total_files}, skipped: {filename}")
@@ -79,8 +85,18 @@ def rename_files(path):
     # Calculate the time taken
     end_time = time.time()
     time_taken = end_time - start_time
+    
+    # Add a new line
+    print() 
+    
+    # Calculate success rate
+    success_rate = success_files / total_files * 100
+    logging.info(f"Success rate: {success_rate:.2f}%")
 
     logging.info(f"Processing completed in {time_taken} seconds")        
+    
+    print()
+    
     input("Press Enter to exit...")
 
 # rename all pdf files in /pdf folder relative root
