@@ -8,7 +8,6 @@ import pytesseract
 import re
 import time
 
-
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 
@@ -146,7 +145,7 @@ def get_nomor_surat(image, filename):
             f.write(text)
 
     # Return the first match
-    return matches[0].replace('/', '-') if matches else None
+    return matches[0].replace('/', '') if matches else None
 
 def rename_pdf_file(pdf_path, old_filename, new_filename):
     # Get the directory of the pdf file
